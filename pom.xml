@@ -47,8 +47,7 @@
         <dependency>
             <groupId>org2.pdsw.stubs</groupId>
             <artifactId>ServicesFacadeStub</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
+            <version>1.1</version>            
         </dependency>
     </dependencies>
 
