@@ -14,22 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.webappsintro.controller;
+package edu.eci.pdsw.webappsintro.model;
 
 import edu.eci.pdsw.samples.entities.Producto;
-import edu.eci.pdsw.webappsintro.model.ServicesFacade;
+import java.util.LinkedList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
-@ManagedBean
-@SessionScoped
-public class ShoppingKartBackingBean {
+/**
+ *
+ * @author hcadavid
+ */
+public class ServicesFacade {
     
+    private final static ServicesFacade instance=new ServicesFacade();
     
-    public List<Producto> getProductos(){
-        return ServicesFacade.getInstance().getProductos();
+    private ServicesFacade(){
+        
     }
     
+    public static ServicesFacade getInstance(){
+        return instance;
+    }
+    
+    /**
+     * Retornar el listado de todos los productos disponibles
+     * @return el listado de productos disponibles
+     */
+    public List<Producto> getProductos(){
+        return new LinkedList<>();
+    }
     
 }

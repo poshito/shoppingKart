@@ -14,22 +14,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.webappsintro.controller;
+package edu.eci.pdsw.samples.entities;
 
-import edu.eci.pdsw.samples.entities.Producto;
-import edu.eci.pdsw.webappsintro.model.ServicesFacade;
-import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+/**
+ *
+ * @author hcadavid
+ */
+public class DetallePedido {
+    private int cantidad;
+    private Producto producto;
 
-@ManagedBean
-@SessionScoped
-public class ShoppingKartBackingBean {
-    
-    
-    public List<Producto> getProductos(){
-        return ServicesFacade.getInstance().getProductos();
+    public DetallePedido(int cantidad, Producto producto) {
+        this.cantidad = cantidad;
+        this.producto = producto;
     }
+
+    public DetallePedido() {
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+    
     
     
 }
