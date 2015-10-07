@@ -33,7 +33,8 @@ import org.apache.ibatis.annotations.Select;
  *
  * @author hcadavid
  */
-public interface PedidoMapper {
+public interface PedidoMapper{
+    
     
     @Select("SELECT codigo, fecha_radicacion from ORD_PEDIDOS where codigo=#{codpedido}")
     @Results(

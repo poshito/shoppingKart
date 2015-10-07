@@ -16,7 +16,7 @@
  */
 package edu.eci.pdsw.samples.persistence;
 
-import edu.eci.pdsw.samples.persistence.jdbcimpl.JDBCDaoFactory;
+import edu.eci.pdsw.samples.persistence.factory.JDBCDaoFactory;
 
 /**
  *

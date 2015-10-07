@@ -5,11 +5,19 @@
  */
 package edu.eci.pdsw.samples.mybatis.mappers;
 
+import edu.eci.pdsw.samples.persistence.DaoFactory;
 import edu.eci.pdsw.samples.persistence.DaoPedido;
 import edu.eci.pdsw.samples.persistence.DaoProducto;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
-import edu.eci.pdsw.samples.persistence.mybatis.mappers.MyBatisMapperFactory;
+import edu.eci.pdsw.samples.persistence.factory.JDBCDaoFactory;
+import edu.eci.pdsw.samples.persistence.factory.MyBatisMapperFactory;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 /**
  *
@@ -17,6 +25,7 @@ import java.util.Properties;
  */
 public abstract class MapperFactory {
     private static Properties prop=null;
+    
     protected MapperFactory(){}
     
     private static final ThreadLocal<MapperFactory> perThreadInstance = new ThreadLocal<MapperFactory>() {
@@ -26,20 +35,21 @@ public abstract class MapperFactory {
         }
     };
     
-    
-    public static MyBatisMapperFactory getInstance(){          
-        return (MyBatisMapperFactory) perThreadInstance.get();
+    public static MapperFactory getInstance(){          
+        return perThreadInstance.get();
     }
     
-     public abstract void beginSession() throws PersistenceException;
     
-    public abstract DaoProducto getDaoProducto();
+    public abstract void beginSession() throws PersistenceException;
     
-    public abstract DaoPedido getDaoPedido();
+    public abstract ProductoMapper getProductoMapper();
+    
+    public abstract PedidoMapper getPedidoMapper();
     
     public abstract void commitTransaction() throws PersistenceException;
     
     public abstract void rollbackTransaction() throws PersistenceException;
     
     public abstract void endSession() throws PersistenceException;
+    
 }
