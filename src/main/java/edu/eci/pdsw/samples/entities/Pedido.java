@@ -37,6 +37,7 @@ public class Pedido {
     }
 
     public Pedido() {
+        detallesPedido=new LinkedHashSet<>();
     }
 
     public int getCodigo() {
@@ -66,6 +67,10 @@ public class Pedido {
     @Override
     public String toString() {
         return "["+codigo+","+fecha+"]"; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void addDetalle(DetallePedido detalle) {
+        detallesPedido.add(detalle);
     }
     
     

@@ -1,11 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <!DOCTYPE html>
-<html xmlns="http://www.w3c.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head></h:head>
-
-    <h:body>
-        Shopping kart: under construction!
-    </h:body>
-
+<html xmlns="http://www.w3c.org/1999/xhtml" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head/>
+   <h:body>
+       <p:layout fullPage="true">
+           <p:layoutUnit position="west" size="650">
+            <h:form id= "formulario1">
+                <p:dataTable var="car" value="#{shoppingKartBackingBean.productos}" sortBy="#{car.codigo}" rowKey="#{car.codigo}">
+                    <f:facet name="header">
+                        Productos
+                    </f:facet>
+                    <p:column headerText="ID">
+                        <h:outputText value="#{car.codigo}"/>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{car.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <h:outputText value="#{car.precio}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Agregar" title="Agregar al carrito" update=":detalles:car1">
+                            <f:setPropertyActionListener value="#{car}" target="#{shoppingKartBackingBean.producto}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p:layoutUnit>
+           <p:layoutUnit position="center">
+            <h:form id ="detalles">
+                <p:dataTable id="car1" var="car1" value="#{shoppingKartBackingBean.carrito}" rowKey="#{car.codigo}" editable="true">
+                    <f:facet name="header">
+                        Pedido
+                    </f:facet>
+                    <p:column headerText="Cantidad">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{car1.cantidad}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{car1.cantidad}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="ID">
+                        <h:outputText value="#{car1.producto.codigo}"/>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{car1.producto.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <h:outputText value="#{car1.producto.precio}"/>
+                    </p:column>
+                    <p:column>
+                        <p:rowEditor />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Retirar" title="Retirar" update=":detalles:car1">
+                            <f:setPropertyActionListener value="#{car1}" target="#{shoppingKartBackingBean.item}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p:layoutUnit>
+           <h:form id ="costo">
+               <p:layoutUnit position="south">
+                   <p:commandButton update=":costo:Bcosto" value="Costo compra" actionListener="#{shoppingKartBackingBean.calcularCosto()}">
+                   </p:commandButton>
+                   Costo compra:<p:outputLabel id="Bcosto" value="#{shoppingKartBackingBean.calcularCosto()}"></p:outputLabel> 
+                   
+                   <p:commandButton value="Registrar pedido" actionListener="#{shoppingKartBackingBean.savePedido()}" onclick="PF('dlg3').show();" update=":costo:codigo">
+                   </p:commandButton>
+                   <p:dialog header="Numero de Registro" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
+                       <h:outputText id="codigo" value="Su numero de registro de pedido es: #{shoppingKartBackingBean.codigoPedido} conservelo para consultas futuras." />
+                   </p:dialog>
+               </p:layoutUnit>
+               
+           </h:form>
+       </p:layout>
+   </h:body>
 </html>

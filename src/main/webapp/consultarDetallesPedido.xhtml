@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head/>
+   <h:body>
+       <p:layout fullPage="true">
+           <p:layoutUnit position="center">
+            <h:form id ="detalles">
+                <p:outputLabel for="pedido" value="No. Pedido:   "/>
+                <p:inputText id="pedido" value="#{shoppingKartBackingBean.idPedido}"/>
+                <p:commandButton value="Mostrar pedido" actionListener="#{shoppingKartBackingBean.setDetallesPedido()}" update=":detalles:car1"/>
+                <p:dataTable id="car1" var="car1" value="#{shoppingKartBackingBean.carrito}" rowKey="#{car.codigo}" editable="true">
+                    <f:facet name="header">
+                        Pedido
+                    </f:facet>
+                    <p:column headerText="Cantidad">
+                        <h:outputText value="#{car1.cantidad}"/>
+                    </p:column>
+                    <p:column headerText="ID">
+                        <h:outputText value="#{car1.producto.codigo}"/>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{car1.producto.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <h:outputText value="#{car1.producto.precio}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            </p:layoutUnit>
+           <h:form id ="costo">
+               <p:layoutUnit position="south">  
+                   <p:commandButton update=":costo:Bcosto" value="Costo compra" actionListener="#{shoppingKartBackingBean.calcularCosto()}">
+                   </p:commandButton>
+                   Costo Pedido:<p:outputLabel id="Bcosto" value="#{shoppingKartBackingBean.calcularCosto()}"></p:outputLabel>
+               </p:layoutUnit>
+               
+           </h:form>
+       </p:layout>
+   </h:body>
+</html>

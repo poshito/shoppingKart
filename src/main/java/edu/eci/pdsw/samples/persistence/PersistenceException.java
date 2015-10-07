@@ -14,45 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.samples.entities;
+package edu.eci.pdsw.samples.persistence;
 
 /**
  *
  * @author hcadavid
  */
-public class DetallePedido {
-    private int cantidad;
-    private Producto producto;
+public class PersistenceException extends Exception {
 
-    public DetallePedido(int cantidad, Producto producto) {
-        this.cantidad = cantidad;
-        this.producto = producto;
+    public PersistenceException(String message) {
+        super(message);
     }
 
-    public DetallePedido() {
+    public PersistenceException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public PersistenceException(Throwable cause) {
+        super(cause);
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public PersistenceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    @Override
-    public String toString() {
-        return "("+producto+","+cantidad+")"; //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
     
 }
