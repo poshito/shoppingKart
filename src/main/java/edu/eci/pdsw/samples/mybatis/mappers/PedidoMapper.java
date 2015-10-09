@@ -18,6 +18,7 @@ package edu.eci.pdsw.samples.mybatis.mappers;
 
 import edu.eci.pdsw.samples.entities.DetallePedido;
 import edu.eci.pdsw.samples.entities.Pedido;
+import edu.eci.pdsw.samples.persistence.DaoPedido;
 import java.util.List;
 import java.util.Set;
 import org.apache.ibatis.annotations.Insert;

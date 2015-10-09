@@ -22,9 +22,13 @@ import edu.eci.pdsw.samples.persistence.DaoProducto;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
 import edu.eci.pdsw.samples.persistence.jdbcimpl.JDBCDaoPedido;
 import edu.eci.pdsw.samples.persistence.jdbcimpl.JDBCDaoProducto;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,21 +39,31 @@ import java.util.logging.Logger;
 public class JDBCDaoFactory extends DaoFactory {
 
     Connection con;
+    Properties prop = new Properties();
+    InputStream input = null;
     
     
     private Connection openConnection() throws PersistenceException{
-            String url="jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba";
-            String driver="com.mysql.jdbc.Driver";
-            String user="bdprueba";
-            String pwd="bdprueba";
-                        
         try {
+            input = ClassLoader.getSystemResourceAsStream("factory.properties");
+            prop.load(input);
+            String url=prop.getProperty("url");//"jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba";
+            String driver=prop.getProperty("driver");//"com.mysql.jdbc.Driver";
+            String user=prop.getProperty("user");//"bdprueba";
+            String pwd=prop.getProperty("pwd");//"bdprueba";
+  
             Class.forName(driver);
             Connection _con=DriverManager.getConnection(url,user,pwd);
             _con.setAutoCommit(false);
             return _con;
         } catch (ClassNotFoundException | SQLException ex) {
             throw new PersistenceException("Error on connection opening.",ex);
+        }catch (FileNotFoundException ex) {
+                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException("Invalid factory configuration.",ex);
+        } catch (IOException ex) {
+                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException("Invalid factory configuration.",ex);
         }
 
     }

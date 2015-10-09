@@ -18,7 +18,6 @@ package edu.eci.pdsw.webappsintro.model;
 
 import edu.eci.pdsw.samples.entities.Pedido;
 import edu.eci.pdsw.samples.entities.Producto;
-import edu.eci.pdsw.samples.mybatis.mappers.MapperFactory;
 import edu.eci.pdsw.samples.mybatis.mappers.ProductoMapper;
 import edu.eci.pdsw.samples.persistence.DaoFactory;
 import edu.eci.pdsw.samples.persistence.DaoPedido;
@@ -38,8 +37,7 @@ import java.util.logging.Logger;
 public class ServicesFacade {
     
     private final static ServicesFacade instance=new ServicesFacade();
-    //private DaoFactory df=DaoFactory.getInstance();
-    private MapperFactory mf = MapperFactory.getInstance();
+    private DaoFactory df=DaoFactory.getInstance();
     
     private ServicesFacade(){
         
@@ -56,23 +54,18 @@ public class ServicesFacade {
     public List<Producto> getProductos(){
         List<Producto> lista = new LinkedList<>();
         try {
-            mf.beginSession();
-            ProductoMapper pm = mf.getProductoMapper();
-            lista=pm.selectAllProducts();
-            mf.endSession();
-            /*
             df.beginSession();
             DaoProducto dpr= df.getDaoProducto();
             lista=dpr.loadAll();            
             df.endSession();
-            */
+            
             
         } catch (PersistenceException ex) {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }
-    /*
+    
     public void SavePedido(Pedido p){
         try {
             df.beginSession();
@@ -110,5 +103,5 @@ public class ServicesFacade {
         }
         return p;
     }
-    */
+    
 }

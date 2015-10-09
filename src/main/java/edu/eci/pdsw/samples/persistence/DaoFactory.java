@@ -17,6 +17,13 @@
 package edu.eci.pdsw.samples.persistence;
 
 import edu.eci.pdsw.samples.persistence.factory.JDBCDaoFactory;
+import edu.eci.pdsw.samples.persistence.factory.MyBatisMapperFactory;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,11 +32,38 @@ import edu.eci.pdsw.samples.persistence.factory.JDBCDaoFactory;
 public abstract class DaoFactory {
     
     protected DaoFactory(){}
+    private static DaoFactory instance=null;
     
     private static final ThreadLocal<DaoFactory> perThreadInstance = new ThreadLocal<DaoFactory>() {
         @Override
-        protected DaoFactory initialValue() {    
-            return new JDBCDaoFactory();
+        protected DaoFactory initialValue() {
+            Properties prop = new Properties();
+            InputStream input = null;
+            
+            try {
+               
+                input = ClassLoader.getSystemResourceAsStream("factory.properties");
+                prop.load(input);
+                System.out.println("Holaaa soy una instancia :D");
+                if (prop.getProperty("persistence").equals("mybatis")){
+                    instance=new MyBatisMapperFactory();
+                }
+                else if (prop.getProperty("persistence").equals("jdbc")){
+                    instance=new JDBCDaoFactory();
+                }
+                else{
+                    throw new RuntimeException("Invalid factory configuration.");
+                }
+                
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException("Invalid factory configuration.",ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException("Invalid factory configuration.",ex);
+            }
+            return instance;
         }
     };
     

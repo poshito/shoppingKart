@@ -5,9 +5,9 @@
  */
 package edu.eci.pdsw.samples.persistence.factory;
 
-import edu.eci.pdsw.samples.mybatis.mappers.MapperFactory;
 import edu.eci.pdsw.samples.mybatis.mappers.PedidoMapper;
 import edu.eci.pdsw.samples.mybatis.mappers.ProductoMapper;
+import edu.eci.pdsw.samples.persistence.DaoFactory;
 import edu.eci.pdsw.samples.persistence.DaoPedido;
 import edu.eci.pdsw.samples.persistence.DaoProducto;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
@@ -27,7 +27,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  *
  * @author usuario
  */
-public class MyBatisMapperFactory extends MapperFactory {
+public class MyBatisMapperFactory extends DaoFactory {
     private static SqlSession sqlss;
     
     public static SqlSessionFactory getSqlSessionFactory() {
@@ -66,15 +66,15 @@ public class MyBatisMapperFactory extends MapperFactory {
     }
     
     @Override
-    public ProductoMapper getProductoMapper(){
+    public DaoProducto getDaoProducto() {
         ProductoMapper promp=sqlss.getMapper(ProductoMapper.class);
-        return promp;
+        return (DaoProducto)promp;
     }
-    
+
     @Override
-    public PedidoMapper getPedidoMapper(){
+    public DaoPedido getDaoPedido() {
         PedidoMapper pedmp=sqlss.getMapper(PedidoMapper.class);
-        return pedmp;
+        return (DaoPedido)pedmp;
     }
     
 }
